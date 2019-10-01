@@ -22,10 +22,11 @@ public class Person {
 
     // Data fields
     private final Address address;
+    private final Balance balance;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field must be present and not null.
+     * Every field except balance must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
@@ -33,6 +34,20 @@ public class Person {
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.balance = new Balance(0);
+        this.tags.addAll(tags);
+    }
+
+    /**
+     * Every field must be present and not null.
+     */
+    public Person(Name name, Phone phone, Email email, Address address, Balance balance, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.balance = balance;
         this.tags.addAll(tags);
     }
 
@@ -50,6 +65,10 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public Balance getBalance() {
+        return balance;
     }
 
     /**
@@ -112,6 +131,8 @@ public class Person {
                 .append(getEmail())
                 .append(" Address: ")
                 .append(getAddress())
+                .append(" Balance: ")
+                .append(getBalance())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();
